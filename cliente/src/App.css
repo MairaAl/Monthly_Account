@@ -1,0 +1,28 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: "TiltNeon";
+}
+
+@font-face {
+  font-family: "TiltNeon";
+  src: url("./fonts/static/TiltNeon-Regular.ttf") format("truetype");
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+.table th {
+  background-color: #f4acfc;
+  color: #333333;
+}
