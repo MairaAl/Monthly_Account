@@ -32,6 +32,7 @@ function Details() {
             <th>Price</th>
             <th>Date (mm/dd/yy)</th>
             <th>Last updated</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +41,12 @@ function Details() {
             <td>{consumo.price}</td>
             <td>{formattedDate}</td>
             <td>{formattedUpdated}</td>
+            <td>
+              {" "}
+              <Link to={`/consumos/edit/${consumo._id}`}>
+                <button className="btn btn-primary ">Editar</button>{" "}
+              </Link>
+            </td>
           </tr>
         </tbody>
       </table>

@@ -6,7 +6,8 @@ const ConsumoList = (props) => {
     <table className="table">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>First name</th>
+          <th>Last name</th>
           <th>Amount</th>
           <th>Actions</th>
         </tr>
@@ -14,14 +15,12 @@ const ConsumoList = (props) => {
       <tbody>
         {props.consumo.map((consumo) => (
           <tr key={consumo._id}>
-            <td>{consumo.name}</td>
+            <td>{consumo.product}</td>
             <td>{consumo.price}</td>
+            <td>None</td>
             <td>
               <Link to={`/consumos/${consumo._id}`}>
                 <button className="btn btn-primary ">Detalle</button>{" "}
-              </Link>
-              <Link to={`/consumos/edit/${consumo._id}`}>
-                <button className="btn btn-primary ">Editar</button>{" "}
               </Link>
             </td>
           </tr>

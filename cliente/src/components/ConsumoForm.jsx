@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const ConsumoForm = () => {
-  const [name, setName] = useState("");
   const [product, setProduct] = useState("");
   const [price, setPrice] = useState("");
   const [date, setDate] = useState("");
@@ -13,14 +12,13 @@ const ConsumoForm = () => {
     e.preventDefault();
     axios
       .post("http://localhost:8000/api/consumos/new", {
-        name,
         product,
         price,
         date,
+        id: "661c43e8076e40527caeda1f",
       })
       .then((res) => {
         console.log(res);
-        setName("");
         setProduct("");
         setDate("");
         setPrice("");
@@ -28,25 +26,15 @@ const ConsumoForm = () => {
       .catch((err) => {
         //console.log(err);
         console.log(err.message);
-        setError(err.data.errors.message);
+        setError(err.message);
       });
   };
 
   return (
     <>
-      <h3>New submit</h3>
+      <h3>New product</h3>
       <div>{error}</div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label className="font">Name</label>
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Enter a name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-          />
-        </div>
         <div>
           <label>Product</label>
           <input
@@ -78,7 +66,7 @@ const ConsumoForm = () => {
         </div>
         <input type="submit" className="btn btn-primary mt-3" value="Add" />
       </form>
-      <Link className="btn btn-primary mt-3" to={"/"}>
+      <Link className="btn btn-primary mt-3" to={`/clients/`}>
         Back
       </Link>
     </>

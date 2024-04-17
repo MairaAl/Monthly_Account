@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 
 const ConsumoSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, "First name is required"],
-    },
     product: {
       type: String,
       required: [true, "Product name is required"],
@@ -17,6 +13,11 @@ const ConsumoSchema = new mongoose.Schema(
     date: {
       type: Date,
       required: [true, "Date is required"],
+    },
+    client: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
+      required: [false, "Client is required"],
     },
   },
   { timestamps: true }
