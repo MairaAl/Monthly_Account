@@ -18,7 +18,7 @@ const ClientList = (props) => {
             <tr key={client._id}>
               <td>{client.firstName}</td>
               <td>{client.lastName}</td>
-              <td>None</td>
+              <td></td>
               <td>
                 <Link to={`/clients/${client._id}`}>
                   <button className="btn btn-primary ">Detalle</button>{" "}

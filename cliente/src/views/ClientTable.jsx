@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const ClientTable = () => {
   const [client, setClient] = useState("");
   const [loaded, setLoaded] = useState(false);
-
+  const [error, setError] = useState("");
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/clients/")
@@ -17,13 +17,19 @@ const ClientTable = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError("Please log in to see the data");
       });
   }, [setClient]);
+
   return (
     <div>
+      <div className="error">{error}</div>
+      <Link to={"/login"}>Log in</Link>
+      <br />
       <Link to={"/clients/addclient"}>Add new client</Link>
       <h1> Clients List</h1>
       {loaded && <ClientList client={client.clients} />}
+      <Link to={"/login"}>Log out</Link>
     </div>
   );
 };

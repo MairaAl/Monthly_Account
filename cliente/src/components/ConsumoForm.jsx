@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ConsumoForm = () => {
   const [product, setProduct] = useState("");
   const [price, setPrice] = useState("");
   const [date, setDate] = useState("");
   const [error, setError] = useState("");
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,13 +17,14 @@ const ConsumoForm = () => {
         product,
         price,
         date,
-        id: "661c43e8076e40527caeda1f",
+        id,
       })
       .then((res) => {
         console.log(res);
         setProduct("");
         setDate("");
         setPrice("");
+        navigate(`/clients/${id}`);
       })
       .catch((err) => {
         //console.log(err);

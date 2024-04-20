@@ -10,14 +10,22 @@ module.exports.findAllConsumos = (req, res) => {
 
 module.exports.findOneSingleConsumo = (req, res) => {
   Consumo.findOne({ _id: req.params.id })
-    .then((oneSingleConsumo) => res.json({ consumo: oneSingleConsumo }))
+    .populate("client") // Poblar la referencia al cliente
+    .then((oneSingleConsumo) => {
+      if (!oneSingleConsumo) {
+        return res.status(404).json({ message: "Consumo not found" });
+      }
+      res.json({ consumo: oneSingleConsumo });
+    })
     .catch((err) =>
       res.status(400).json({ message: "Something went wrong", error: err })
     );
 };
 
 module.exports.createNewConsumo = (req, res) => {
-  Consumo.create(req.body)
+  const clientId = req.params.clientId;
+  const consumoData = { ...req.body, client: clientId };
+  Consumo.create(consumoData)
     .then((newlyCreatedConsumo) => res.json({ consumo: newlyCreatedConsumo }))
     .catch((err) =>
       res.status(400).json({ message: "Something went wrong", error: err })

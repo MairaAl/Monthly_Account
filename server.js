@@ -6,7 +6,12 @@ const cookieParser = require("cookie-parser");
 require("./server/config/mongoose.config");
 
 app.use(express.json(), express.urlencoded({ extended: true }));
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+const corsOptions = {
+  credentials: true, // Allow credentials (cookies) to be sent to/from origin
+  origin: "http://localhost:5173", // Allow only this origin
+  methods: "GET, POST, PUT, PATCH, DELETE", // Allow these methods
+};
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 const AllMyConsumoRoutes = require("./server/routes/consumo.routes");

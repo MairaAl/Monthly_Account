@@ -6,8 +6,8 @@ const UserForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [response, setResponse] = useState("");
   const navigate = useNavigate();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -22,12 +22,32 @@ const UserForm = () => {
         navigate("/clients");
       })
       .catch((err) => {
-        //console.log(err);
         console.log(err);
-        setError(err.message);
+        setError("Please enter a valid e-mail and password or register");
       });
   };
+  const handleLogout = () => {
+    logoutUser();
+  };
 
+  const logoutUser = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/auth/logout"
+      );
+      localStorage.removeItem("user");
+      if (response.status === 200) {
+        navigate("/login");
+        console.log(response);
+        setResponse(response.data.message);
+      } else {
+        console.log("Unexpected successful response during logout: ", response);
+        setError("An unexpected response occurred during logout.");
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+    }
+  };
   return (
     <>
       <h3>Log in</h3>
@@ -56,6 +76,10 @@ const UserForm = () => {
 
         <input type="submit" className="btn btn-primary mt-3" value="Login" />
       </form>
+      <button onClick={handleLogout} className="btn btn-primary mt-3">
+        Log out
+      </button>
+      <div className="error">{response}</div>
     </>
   );
 };

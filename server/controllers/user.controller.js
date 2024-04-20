@@ -8,15 +8,15 @@ module.exports = {
     user
       .save()
       .then(() => {
-        res.json({ msg: "success!", user: user });
+        res.status(200).json({ msg: "success!", user: user });
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(400).json(err));
   },
   logout: (req, res) => {
     // clear the cookie from the response
     res.clearCookie("usertoken");
     res.status(200).json({
-      message: "You have successfully logged out of our system",
+      message: "You have successfully logged out",
     });
   },
   login: (req, res) => {
