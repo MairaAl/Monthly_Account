@@ -24,12 +24,18 @@ const ClientTable = () => {
   return (
     <div>
       <div className="error">{error}</div>
-      <Link to={"/login"}>Log in</Link>
+      <Link className="link-warning" to={"/login"}>
+        Log in
+      </Link>
       <br />
-      <Link to={"/clients/addclient"}>Add new client</Link>
+      <Link className="link-warning" to={"/clients/addclient"}>
+        Add new client
+      </Link>
       <h1> Clients List</h1>
       {loaded && <ClientList client={client.clients} />}
-      <Link to={"/login"}>Log out</Link>
+      <Link className="link-warning" to={"/login"}>
+        Log out
+      </Link>
     </div>
   );
 };

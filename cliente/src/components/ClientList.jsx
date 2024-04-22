@@ -9,7 +9,7 @@ const ClientList = (props) => {
           <tr>
             <th>First name</th>
             <th>Last name</th>
-            <th>Amount</th>
+
             <th>Actions</th>
           </tr>
         </thead>
@@ -18,10 +18,13 @@ const ClientList = (props) => {
             <tr key={client._id}>
               <td>{client.firstName}</td>
               <td>{client.lastName}</td>
-              <td></td>
+
               <td>
                 <Link to={`/clients/${client._id}`}>
-                  <button className="btn btn-primary ">Detalle</button>{" "}
+                  <button className="btn btn-outline-warning">Details</button>{" "}
+                </Link>
+                <Link to={`/clients/edit/${client._id}`}>
+                  <button className="btn btn-outline-warning">Edit</button>{" "}
                 </Link>
               </td>
             </tr>

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UserForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [response, setResponse] = useState("");
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ const UserForm = () => {
       if (response.status === 200) {
         navigate("/login");
         console.log(response);
-        setResponse(response.data.message);
+        Swal.fire("Logged out");
       } else {
         console.log("Unexpected successful response during logout: ", response);
         setError("An unexpected response occurred during logout.");
@@ -74,12 +74,15 @@ const UserForm = () => {
           />
         </div>
 
-        <input type="submit" className="btn btn-primary mt-3" value="Login" />
+        <input
+          type="submit"
+          className="btn btn-outline-warning mt-3"
+          value="Login"
+        />
       </form>
-      <button onClick={handleLogout} className="btn btn-primary mt-3">
+      <button onClick={handleLogout} className="btn btn-outline-warning mt-3">
         Log out
       </button>
-      <div className="error">{response}</div>
     </>
   );
 };

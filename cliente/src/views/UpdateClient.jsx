@@ -1,38 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 
-const ClientForm = () => {
+const UpdateClient = () => {
+  const { id } = useParams();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/clients/${id}`).then((res) => {
+      console.log(res.data);
+      setFirstName(res.data.client.firstName);
+      setLastName(res.data.client.lastName);
+    });
+  }, [id]);
+  const updateClient = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/api/clients/new", {
+      .put(`http://localhost:8000/api/clients/update/${id}`, {
         firstName,
         lastName,
       })
-      .then((res) => {
-        console.log(res);
-        setFirstName("");
-        setLastName("");
-        navigate("/clients");
-      })
-      .catch((err) => {
-        //console.log(err);
-        console.log(err.message);
-        setError(err.data.errors.message);
-      });
+      .then((res) => console.log(res), navigate("/clients"));
   };
-
   return (
-    <>
-      <h3>New client</h3>
-      <div>{error}</div>
-      <form onSubmit={handleSubmit}>
+    <div>
+      <h3>Update a client</h3>
+      <form onSubmit={updateClient}>
         <div>
           <label className="font">First Name</label>
           <input
@@ -56,15 +50,13 @@ const ClientForm = () => {
 
         <input
           type="submit"
-          className="btn btn-outline-warning mt-3"
-          value="Add"
+          className="btn btn-primary mt-3"
+          value="Save changes"
         />
       </form>
-      <Link className="btn btn-outline-warning mt-3" to={"/clients"}>
-        Back
-      </Link>
-    </>
+      <Link to={`/clients/`}>Back to homepage</Link>
+    </div>
   );
 };
 
-export default ClientForm;
+export default UpdateClient;

@@ -13,11 +13,10 @@ const ConsumoForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8000/api/consumos/new", {
+      .post(`http://localhost:8000/api/consumos/new/${id}`, {
         product,
         price,
         date,
-        id,
       })
       .then((res) => {
         console.log(res);
@@ -67,9 +66,13 @@ const ConsumoForm = () => {
             value={date}
           />
         </div>
-        <input type="submit" className="btn btn-primary mt-3" value="Add" />
+        <input
+          type="submit"
+          className="btn btn-outline-warning mt-3 "
+          value="Add"
+        />
       </form>
-      <Link className="btn btn-primary mt-3" to={`/clients/`}>
+      <Link className="btn btn-outline-warning mt-3 " to={`/clients/`}>
         Back
       </Link>
     </>

@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function ClientDetails() {
+  const [totalPrice, setTotalPrice] = useState("");
   const [client, setClient] = useState("");
   const [consumo, setConsumo] = useState([]);
   const navigate = useNavigate();
@@ -22,42 +24,85 @@ function ClientDetails() {
     axios
       .get(`http://localhost:8000/api/consumos/`)
       .then((res) => {
-        setConsumo(res.data.consumos);
         console.log(res.data.consumos);
+        const consumosCliente = res.data.consumos.filter(
+          (consumo) => consumo.client == id
+        );
+        setConsumo(consumosCliente);
+        console.log(consumosCliente);
       })
       .catch((err) => {
         console.log(err);
         setConsumo([]);
       });
   }, [id]);
+  useEffect(() => {
+    const totalPrice = consumo.reduce(
+      (total, consumoItem) => total + consumoItem.price,
+      0
+    );
+    setTotalPrice(totalPrice);
+  }, [consumo]);
   function deleteClient() {
-    axios
-      .delete(`http://localhost:8000/api/clients/delete/${client._id}`)
-      .then((res) => {
-        console.log(res);
-        navigate("/clients");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  function deleteConsumo(consumoId) {
-    axios
-      .delete(`http://localhost:8000/api/consumos/delete/${consumoId}`)
-      .then((res) => {
-        console.log(res);
-        setConsumo(consumo.filter((item) => item._id !== consumoId));
-        navigate(`/clients/${id}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:8000/api/clients/delete/${client._id}`)
+          .then((res) => {
+            console.log(res);
+            navigate("/clients");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   }
 
-  const totalPrice = consumo.reduce(
-    (total, consumoItem) => total + consumoItem.price,
-    0
-  );
+  function deleteConsumo(consumoId) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:8000/api/consumos/delete/${consumoId}`)
+          .then((res) => {
+            if (res.status === 200) {
+              console.log(res);
+              Swal.fire({
+                title: "Deleted!",
+                text: "The product has been delete",
+                icon: "success",
+              });
+              setConsumo(consumo.filter((item) => item._id !== consumoId));
+              navigate(`/clients/${id}`);
+            } else {
+              console.log(
+                "Unexpected successful response during deletion: ",
+                res
+              );
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  }
 
   return (
     <div>
@@ -82,34 +127,33 @@ function ClientDetails() {
                 <td>{new Date(consumoItem.date).toLocaleDateString()}</td>
                 <td>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-outline-warning"
                     onClick={() => deleteConsumo(consumoItem._id)}
                   >
                     Delete
                   </button>
-                  <span>-</span>
-                  <Link className="btn btn-primary">Edit</Link>
                 </td>
               </tr>
             ))}
             <tr>
               <td>Total</td>
-              <td>
-                <div>{totalPrice}</div>
-              </td>
+              <td>{totalPrice}</td>
               <td></td>
               <td></td>
             </tr>
           </tbody>
         </table>
-        <Link className="btn btn-primary m-2" to={`/consumos/addconsumo/${id}`}>
+        <Link
+          className="btn btn-outline-warning m-2"
+          to={`/consumos/addconsumo/${id}`}
+        >
           Add new product
         </Link>
-        <Link className="btn btn-primary m-2" to={`/clients`}>
+        <Link className="btn btn-outline-warning m-2" to={`/clients`}>
           Back to home
         </Link>
       </div>
-      <button className="btn btn-primary" onClick={deleteClient}>
+      <button className="btn btn-outline-warning" onClick={deleteClient}>
         Delete {client.firstName}
       </button>
     </div>

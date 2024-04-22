@@ -4,6 +4,7 @@
   padding: 2rem;
   text-align: center;
   font-family: "TiltNeon";
+  color: saddlebrown;
 }
 
 @font-face {
@@ -29,4 +30,9 @@
 .error {
   color: red;
   font-style: italic;
+}
+#img {
+  width: 200px;
+  border-radius: 53%;
+  margin: 0 auto;
 }

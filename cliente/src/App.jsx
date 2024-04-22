@@ -1,11 +1,12 @@
 import "./App.css";
 import ConsumoForm from "./components/ConsumoForm";
 import { Route, Routes } from "react-router-dom";
-import Update from "./views/Update";
 import ClientTable from "./views/ClientTable";
 import ClientForm from "./views/ClientForm";
 import ClientDetails from "./views/ClientDetails";
 import MainView from "./views/MainView";
+import UpdateClient from "./views/UpdateClient";
+
 function App() {
   return (
     <>
@@ -17,8 +18,8 @@ function App() {
         <Route path="/clients/addclient" element={<ClientForm />}></Route>
         <Route path="/login" element={<MainView />} />
         <Route path="/clients" element={<ClientTable />} />
-        <Route path="/consumos/edit/:id" element={<Update />} />
         <Route path="/clients/:id" element={<ClientDetails />} />
+        <Route path="/clients/edit/:id" element={<UpdateClient />} />
       </Routes>
     </>
   );
