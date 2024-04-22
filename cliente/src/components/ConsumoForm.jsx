@@ -72,7 +72,7 @@ const ConsumoForm = () => {
           value="Add"
         />
       </form>
-      <Link className="btn btn-outline-warning mt-3 " to={`/clients/`}>
+      <Link className="btn btn-outline-warning mt-3 " to={`/clients/${id}`}>
         Back
       </Link>
     </>
